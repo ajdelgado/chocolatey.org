@@ -47,7 +47,11 @@ $tempDir = Join-Path $chocTempDir "chocInstall"
 if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
 $file = Join-Path $tempDir "chocolatey.zip"
 
-# PowerShell v2/3 caches the output stream. Then it throws errors due# to the FileStream not being what is expected. Fixes "The OS handle's# position is not what FileStream expected. Do not use a handle# simultaneously in one FileStream and in Win32 code or another# FileStream."
+# PowerShell v2/3 caches the output stream. Then it throws errors due
+# to the FileStream not being what is expected. Fixes "The OS handle's
+# position is not what FileStream expected. Do not use a handle
+# simultaneously in one FileStream and in Win32 code or another
+# FileStream."
 function Fix-PowerShellOutputRedirectionBug {
   $poshMajorVerion = $PSVersionTable.PSVersion.Major
 
@@ -193,7 +197,7 @@ Write-Output 'Ensuring chocolatey commands are on the path'
 $chocInstallVariableName = "ChocolateyInstall"
 $chocoPath = [Environment]::GetEnvironmentVariable($chocInstallVariableName)
 if ($chocoPath -eq $null -or $chocoPath -eq '') {
-  $chocoPath = 'C:\ProgramData\Chocolatey'
+  $chocoPath = [Environment]::GetEnvironmentVariable("programdata") +`'\Chocolatey'
 }
 
 $chocoExePath = Join-Path $chocoPath 'bin'
